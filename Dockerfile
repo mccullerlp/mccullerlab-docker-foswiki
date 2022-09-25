@@ -15,7 +15,7 @@ RUN rm -rf /var/cache/apk/* && \
     apk upgrade && \
     apk add --update && \
     apk add ca-certificates imagemagick mailcap musl nginx openssl tzdata bash \
-        db htmldoc make gcc db-dev musl-dev \
+        db htmldoc make gcc db-dev musl-dev rcs \
         grep unzip wget zip perl perl-algorithm-diff perl-algorithm-diff-xs \
         perl-apache-logformat-compiler perl-archive-zip perl-authen-sasl \
         perl-authcas perl-cache-cache perl-cgi perl-cgi-session \

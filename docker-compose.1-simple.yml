@@ -13,10 +13,13 @@ services:
     ports:
       - "8765:80"
     volumes:
+      - ./backup/:/backup/
+      - ../volumes/wiki_backup/:/backup_data/
       - solr_logs:/opt/solr/server/logs:z
       - solr_configsets:/opt/solr/server/solr/configsets:z
       - solr_foswiki:/opt/solr/server/solr/solr_foswiki:z
-      - foswiki_www:/var/www/foswiki:z
+      # - foswiki_www:/var/www/foswiki:z
+      - ../volumes/wiki_data:/var/www/foswiki
 
   solr:
     image: solr:5

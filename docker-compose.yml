@@ -1,1 +1,53 @@
-docker-compose.1-simple.yml
+version: '3'
+
+services:
+
+  foswiki:
+    image: timlegge/docker-foswiki:latest
+    restart: always
+    hostname: foswiki.docker.local
+    depends_on: 
+      - solr
+    networks:
+      frontend:
+        aliases:
+          - foswiki
+      backend:
+    ports:
+      - "127.0.0.1:8765:80"
+    volumes:
+      - ./backup/:/backup/
+      - ../volumes/wiki_backup/:/backup_data/
+      - solr_logs:/opt/solr/server/logs
+      - solr_configsets:/opt/solr/server/solr/configsets
+      - solr_foswiki:/opt/solr/server/solr/solr_foswiki
+      # - foswiki_www:/var/www/foswiki
+      - ../volumes/wiki_data:/var/www/foswiki
+      - ./https/nginx.default.conf:/etc/nginx/http.d/default.conf
+      - ./https/docker-foswiki.crt:/etc/nginx/docker-foswiki.crt
+      - ./https/docker-foswiki.key:/etc/nginx/docker-foswiki.key
+
+  solr:
+    image: solr:5
+    restart: always
+    networks:
+      - backend
+    volumes:
+      - solr_logs:/opt/solr/server/logs
+      - solr_configsets:/opt/solr/server/solr/configsets
+      - solr_foswiki:/opt/solr/server/solr/solr_foswiki
+      - foswiki_www:/var/www/foswiki
+    environment:
+      - GC_LOG_OPTS=''
+      - SOLR_LOG_LEVEL='WARN'
+
+volumes:
+  foswiki_www:
+  solr_configsets:
+  solr_foswiki:
+  solr_logs:
+
+networks:
+  frontend:
+  backend:
+    internal: true

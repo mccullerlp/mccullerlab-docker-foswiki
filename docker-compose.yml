@@ -18,9 +18,9 @@ services:
     volumes:
       - ./backup/:/backup/
       - ../volumes/wiki_backup/:/backup_data/
-      - solr_logs:/opt/solr/server/logs
-      - solr_configsets:/opt/solr/server/solr/configsets
-      - solr_foswiki:/opt/solr/server/solr/solr_foswiki
+      - solr_logs:/opt/solr/server/logs:z
+      - solr_configsets:/opt/solr/server/solr/configsets:z
+      - solr_foswiki:/opt/solr/server/solr/solr_foswiki:z
       # - foswiki_www:/var/www/foswiki
       - ../volumes/wiki_data:/var/www/foswiki
       - ./https/nginx.default.conf:/etc/nginx/http.d/default.conf
@@ -33,10 +33,10 @@ services:
     networks:
       - backend
     volumes:
-      - solr_logs:/opt/solr/server/logs
-      - solr_configsets:/opt/solr/server/solr/configsets
-      - solr_foswiki:/opt/solr/server/solr/solr_foswiki
-      - foswiki_www:/var/www/foswiki
+      - solr_logs:/opt/solr/server/logs:z
+      - solr_configsets:/opt/solr/server/solr/configsets:z
+      - solr_foswiki:/opt/solr/server/solr/solr_foswiki:z
+      - ../volumes/wiki_data:/var/www/foswiki
     environment:
       - GC_LOG_OPTS=''
       - SOLR_LOG_LEVEL='WARN'

@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
-FNAME=${1:-backup_acls.acl}
-getfacl -n -R ../volumes/wiki_data/ > "$FNAME"
+FNAME=${1:-backup_acls.acl.gz.gz}
+getfacl -n -R ../volumes/wiki_data/ | gzip > "$FNAME"

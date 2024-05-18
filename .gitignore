@@ -4,3 +4,6 @@
 .env
 
 _data
+
+overlay
+*.sync-conflict*

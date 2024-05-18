@@ -3,10 +3,12 @@ version: '3'
 services:
 
   foswiki:
-    image: timlegge/docker-foswiki:latest
+    # image: timlegge/docker-foswiki:latest
+    build:
+      context: './overlay/'
     restart: always
     hostname: foswiki.docker.local
-    depends_on: 
+    depends_on:
       - solr
     networks:
       frontend:
@@ -26,6 +28,11 @@ services:
       - ./https/nginx.default.conf:/etc/nginx/http.d/default.conf
       - ./https/docker-foswiki.crt:/etc/nginx/docker-foswiki.crt
       - ./https/docker-foswiki.key:/etc/nginx/docker-foswiki.key
+      
+    environment:
+      - HTTPS_CA_FILE=/etc/ssl/certs/ca-certificates.crt
+      - HTTPS_CA_PATH=/etc/ssl/certs/
+      # - PERL_LWP_VERIFY_HOSTNAME=0
 
   solr:
     image: solr:5

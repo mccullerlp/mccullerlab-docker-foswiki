@@ -19,12 +19,12 @@ services:
       - "127.0.0.1:8765:80"
     volumes:
       - ./backup/:/backup/
-      - ../volumes/wiki_backup/:/backup_data/
+      - ./volumes/backup/:/backup_data/
+      - ./volumes/data:/var/www/foswiki
       - solr_logs:/opt/solr/server/logs:z
       - solr_configsets:/opt/solr/server/solr/configsets:z
       - solr_foswiki:/opt/solr/server/solr/solr_foswiki:z
       # - foswiki_www:/var/www/foswiki
-      - ../volumes/wiki_data:/var/www/foswiki
       - ./https/nginx.default.conf:/etc/nginx/http.d/default.conf
       - ./https/docker-foswiki.crt:/etc/nginx/docker-foswiki.crt
       - ./https/docker-foswiki.key:/etc/nginx/docker-foswiki.key
@@ -43,7 +43,7 @@ services:
       - solr_logs:/opt/solr/server/logs:z
       - solr_configsets:/opt/solr/server/solr/configsets:z
       - solr_foswiki:/opt/solr/server/solr/solr_foswiki:z
-      - ../volumes/wiki_data:/var/www/foswiki
+      - ./volumes/data:/var/www/foswiki
     environment:
       - GC_LOG_OPTS=''
       - SOLR_LOG_LEVEL='WARN'

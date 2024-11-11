@@ -1,0 +1,9 @@
+[Unit]
+Description=foswiki web service backup through docker compose
+
+[Timer]
+Persistent=true
+OnCalendar=*-*-* 4:00:00
+
+[Install]
+WantedBy=timers.target

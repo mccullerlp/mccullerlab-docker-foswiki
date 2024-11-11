@@ -1,0 +1,12 @@
+[Unit]
+Description=foswiki web service backup through docker compose
+After=foswiki.service
+
+[Service]
+WorkingDirectory=/webapps/foswiki/
+Type=oneshot
+ExecStart=/webapps/foswiki/backups.sh
+ExecStart=/webapps/foswiki/backups/logrotate.sh
+
+[Install]
+WantedBy=multi-user.target

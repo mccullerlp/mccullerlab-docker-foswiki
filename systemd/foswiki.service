@@ -1,0 +1,15 @@
+[Unit]
+Description=foswiki web service with docker compose
+PartOf=docker.service
+After=docker.service
+
+[Service]
+WorkingDirectory=/webapps/foswiki/
+ExecStart=/usr/bin/docker compose up --remove-orphans
+ExecStop=/usr/bin/docker compose down
+
+# ignore the output, since it is going into the logbook via docker anyway
+StandardOutput=null
+
+[Install]
+WantedBy=multi-user.target

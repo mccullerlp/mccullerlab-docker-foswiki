@@ -1,7 +1,5 @@
-version: '3'
 
 services:
-
   foswiki:
     # image: timlegge/docker-foswiki:latest
     build:
@@ -11,9 +9,7 @@ services:
     depends_on:
       - solr
     networks:
-      frontend:
-        aliases:
-          - foswiki
+      proxy:
       backend:
     ports:
       - "127.0.0.1:8765:80"
@@ -48,6 +44,35 @@ services:
       - GC_LOG_OPTS=''
       - SOLR_LOG_LEVEL='WARN'
 
+  # for automated backups
+  backrest:
+    # image: garethgeorge/backrest:latest
+    # container_name: backrest-log
+    image: mcculler/backrest-log
+    build:
+      context: './backrest/'
+    hostname: backrest
+    volumes:
+      - ./:/data/
+      - ./backup:/backup
+      - ./volumes/backrest-config:/config
+      - ./volumes/backrest-cache:/cache
+      - ./volumes/backup:/backup_data/
+      # to run in-app backup scripts
+      - /var/run/docker.sock:/var/run/docker.sock
+    environment:
+      - BACKREST_DATA=/backrest_data/ # path for backrest data. restic binary and the database are placed here.
+      - BACKREST_CONFIG=/config/config.json # path for the backrest config file.
+      - XDG_CACHE_HOME=/cache # path for the restic cache which greatly improves performance.
+      - TZ=America/Los_Angeles # set the timezone for the container, used as the timezone for cron jobs.
+    restart: unless-stopped
+    ports:
+      - 127.0.0.1:19898:9898
+    networks:
+      proxy:
+        aliases: 
+          - backrest.foswiki.docker.local
+
 volumes:
   foswiki_www:
   solr_configsets:
@@ -55,6 +80,8 @@ volumes:
   solr_logs:
 
 networks:
-  frontend:
+  proxy:
+    external: true
+    name: "frontend-proxy"
   backend:
     internal: true

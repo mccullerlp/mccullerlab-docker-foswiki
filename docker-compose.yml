@@ -1,4 +1,6 @@
 
+name: foswiki
+
 services:
   foswiki:
     # image: timlegge/docker-foswiki:latest
@@ -10,6 +12,7 @@ services:
       - solr
     networks:
       proxy:
+      authentik:
       backend:
     ports:
       - "127.0.0.1:8765:80"
@@ -83,5 +86,8 @@ networks:
   proxy:
     external: true
     name: "frontend-proxy"
+  authentik:
+    external: true
+    name: "authentik"
   backend:
     internal: true

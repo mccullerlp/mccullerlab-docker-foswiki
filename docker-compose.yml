@@ -12,7 +12,9 @@ services:
       - solr
     networks:
       proxy:
-      authentik:
+      # note that foswiki should not see the internal authentik as users.mccullerlab.com because
+      # it validated the ssl certificate, which is only valid externally (so keep commented)
+      # authentik:
       backend:
     ports:
       - "127.0.0.1:8765:80"

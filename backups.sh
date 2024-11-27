@@ -18,6 +18,7 @@ EX2=$?
 if [ "$EX1" -eq 0 -a "$EX2" -eq 0 ];then
     curl -fsS -m 10 --retry 5 http://healthchecks.mccullerlab.com/ping/${HC_UUID_DB}
 else
+    echo "FAIL?!"
     curl -fsS -m 10 --retry 5 http://healthchecks.mccullerlab.com/ping/${HC_UUID_DB}/fail
 fi
 )

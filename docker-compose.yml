@@ -58,7 +58,8 @@ services:
       context: './backrest/'
     hostname: backrest
     volumes:
-      - ./:/data/
+      - ./:/data/foswiki
+      - ../restore:/data/restore
       - ./backup:/backup
       - ./volumes/backrest-config:/config
       - ./volumes/backrest-cache:/cache
